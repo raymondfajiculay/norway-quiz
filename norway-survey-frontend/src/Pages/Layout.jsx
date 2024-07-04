@@ -17,13 +17,14 @@ export default function Layout() {
             },
         });
 
-        const data = await res.json();
-
         if(res.ok) {
             setUser(null);
             setToken(null);
             localStorage.removeItem("token");
             navigate('/');
+        } else {
+            const data = await res.json();
+            console.error('Logout failed:', data.message);
         }
     }
 
@@ -36,6 +37,8 @@ export default function Layout() {
                     {user ? (
                         <div className="flex items-center space-x-4">
                             <p className="text-slate-400 text-xs">Welcome back {user.name}</p>
+
+                            <Link to="/create" className="nav-link">Create Post</Link>
 
                             <form onSubmit={handleLogout}>
                                 <button className="nav-link">Logout</button>

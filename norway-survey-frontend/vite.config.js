@@ -5,9 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    // To test over wifi
+    // host: true, 
+    // port: 3000, 
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8000', // Correct port and protocol
+        target: 'http://127.0.0.1:8000', 
         changeOrigin: true,
         headers: {
           Accept: 'application/json',

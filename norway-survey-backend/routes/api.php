@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Route::apiResource('posts', PostController::class);
+Route::apiResource('posts', PostController::class);
 Route::apiResource('quizzes', QuizController::class);
 Route::apiResource('questions', QuestionsController::class);
 
