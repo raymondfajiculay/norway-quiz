@@ -20,9 +20,10 @@ class QuizController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Quiz::all();
+       
+        return Quiz::with('user')->latest()->get();
     }
 
     /**
@@ -39,7 +40,7 @@ class QuizController extends Controller implements HasMiddleware
         // Create quiz via a user
         $quiz = $request->user()->quiz()->create($fields);
 
-        return $quiz;
+        return ['quiz' => $quiz, 'user' => $quiz->user];
     }
 
     /**
@@ -47,7 +48,7 @@ class QuizController extends Controller implements HasMiddleware
      */
     public function show(Quiz $quiz)
     {
-        return $quiz;
+        return ['quiz' => $quiz, 'user' => $quiz->user];
     }
 
     /**

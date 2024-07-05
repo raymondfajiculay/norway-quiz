@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Questions;
+use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-use function PHPSTORM_META\map;
-
-class QuestionsController extends Controller
+class QuestionController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['index', 'show'])
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Questions::all();
+        return Question::with('quiz')->latest()->get();
     }
 
     /**
@@ -22,14 +30,16 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
+
         $fields = $request->validate([
+            'quiz_id' => 'required|exists:quizzes,id',
             'question_text' => 'required|max:50',
-            'rigth_answer' => 'required|max:5',
+            'right_answer' => 'required|max:5',
             'explanation' => 'required|max:500'
         ]);
 
-        // Create questions via a user
-        $question = $request->quiz()->questions()->create($fields);
+        // Create questions via a quiz
+        $question = Question::create($fields);
 
         return $question;
     }
@@ -37,7 +47,7 @@ class QuestionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Questions $question)
+    public function show(Question $question)
     {
         return $question;
     }
@@ -45,9 +55,8 @@ class QuestionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Questions $question)
+    public function update(Request $request, Question $question)
     {
-
         $fields = $request->validate([
            'question_text' => 'required|max:50',
             'rigth_answer' => 'required|max:5',
@@ -62,10 +71,21 @@ class QuestionsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Questions $question)
+    public function destroy(Question $question)
     {   
         $question->delete();
 
         return ['message' => "Question was deleted"];
+    }
+
+    public function getQuestionsByQuiz($quizId)
+    {
+        $quiz = Quiz::with('questions')->find($quizId);
+
+        if (!$quiz) {
+            return response()->json(['message' => 'Quiz not found'], 404);
+        }
+
+        return response()->json($quiz->questions);
     }
 }
