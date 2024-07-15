@@ -1,0 +1,50 @@
+.game-container {
+    /* width: 100%;
+    height: 90vh; */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../assets/images/main-background.png');
+}
+
+main {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    overflow: hidden;
+}
+
+/* header {
+    display: none;
+} */
+
+.question-container {
+    position: relative;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('../../assets/images/textcontainercondom.png');
+}
+
+.spermy {
+    position: absolute;
+    height: 13rem;
+    right: 0;
+    bottom: -100%;
+
+}
+
+@media screen and (min-width: 768px) {
+    .spermy {
+        height: 15rem;
+        position: relative;
+        right: auto;
+        bottom: auto;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .spermy {
+        height: 25rem;
+    }
+}

@@ -9,7 +9,7 @@ export default function Create() {
     const [formData, setFormData] = useState({
         quiz_id: id,
         question_text: "",
-        right_answer: "",
+        answer: "",
         explanation: ""
     });
 
@@ -37,7 +37,7 @@ export default function Create() {
 
 
     return (
-        <>
+        <div className="container">
             <h1 className="title">Create a new question</h1>
 
             <form onSubmit={(e) => handleCreate(e)} className="w-1/2 mx-auto space-y-6">
@@ -54,17 +54,25 @@ export default function Create() {
                     {errors.question_text && <p className="error">{errors.question_text[0]}</p>}
                 </div>
 
-                {/* Right Answer */}
-                <div>
+                {/* Answer */}
+                <div className="flex gap-2">
+                    <label>Answer: </label>
                     <input 
-                        type="text" 
-                        name="right_answer" 
-                        placeholder="Right Answer" 
-                        value={formData.right_answer} 
-                        onChange={(e) => setFormData({ ...formData, right_answer: e.target.value })}
-                        className="input-class"
+                        type="radio" 
+                        id="tama" 
+                        name="answer" 
+                        value="Tama" 
+                        onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
                     />
-                    {errors.right_answer && <p className="error">{errors.right_answer[0]}</p>}
+                    <label htmlFor="Tama">Tama</label>
+                    <input 
+                        type="radio" 
+                        id="mali" 
+                        name="answer" 
+                        value="Mali" 
+                        onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
+                    />
+                    <label htmlFor="mali">Mali</label>
                 </div>
 
                 {/* Explanation */}
@@ -83,6 +91,6 @@ export default function Create() {
                 <button type="submit" className="primary-btn">Create</button>
             </form>
 
-        </>
+        </div>
     )
 }

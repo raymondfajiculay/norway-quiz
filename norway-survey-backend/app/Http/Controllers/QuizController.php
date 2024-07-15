@@ -22,7 +22,6 @@ class QuizController extends Controller implements HasMiddleware
      */
     public function index(Request $request)
     {
-       
         return Quiz::with('user')->latest()->get();
     }
 
@@ -34,7 +33,7 @@ class QuizController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => 'required|max:50',
             'description' => 'required|max:500',
-            'intervention' => 'required|max:500'
+            'status' => 'required|max:6'
         ]);
 
         // Create quiz via a user
@@ -48,7 +47,13 @@ class QuizController extends Controller implements HasMiddleware
      */
     public function show(Quiz $quiz)
     {
-        return ['quiz' => $quiz, 'user' => $quiz->user];
+        $quiz->load(['questions', 'interventions']);
+        return [
+            'quiz' => $quiz,
+            'questions' => $quiz->questions,
+            'interventions' => $quiz->interventions,
+            'user' => $quiz->user
+        ];
     }
 
     /**
@@ -61,7 +66,7 @@ class QuizController extends Controller implements HasMiddleware
         $fields = $request->validate([
             'title' => 'required|max:50',
             'description' => 'required|max:500',
-            'intervention' => 'required|max:500'
+            'status' => 'required|max:6'
         ]);
 
         $quiz->update($fields);
@@ -80,4 +85,35 @@ class QuizController extends Controller implements HasMiddleware
 
         return ['message' => "quiz was deleted"];
     }
+
+    public function showQuestions(Quiz $quiz)
+    {
+        $questions = $quiz->load('questions');
+        $interventions = $quiz->load('interventions');
+
+        return ['questions' => $questions, 'interventions' => $interventions];
+    }
+
+    public function getQuestionsByQuiz($quizId)
+    {
+        $quiz = Quiz::with('questions')->find($quizId);
+
+        if (!$quiz) {
+            return response()->json(['message' => 'Quiz not found'], 404);
+        }
+
+        return response()->json($quiz->questions);
+    }
+
+    public function getInterventionsByQuiz($quizId)
+    {
+        $quiz = Quiz::with('interventions')->find($quizId);
+    
+        if (!$quiz) {
+            return response()->json(['message' => 'Quiz not found'], 404);
+        }
+    
+        return response()->json($quiz->interventions);
+    }
+    
 }

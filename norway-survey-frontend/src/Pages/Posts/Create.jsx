@@ -34,7 +34,7 @@ export default function Create() {
 
 
     return (
-        <>
+        <div className="container">
             <h1 className="title">Create a new post</h1>
 
             <form onSubmit={(e) => handleCreate(e)} className="w-1/2 mx-auto space-y-6">
@@ -65,6 +65,6 @@ export default function Create() {
                 <button type="submit" className="primary-btn">Create</button>
             </form>
 
-        </>
+        </div>
     )
 }

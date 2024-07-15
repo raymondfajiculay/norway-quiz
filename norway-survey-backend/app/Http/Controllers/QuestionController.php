@@ -33,8 +33,8 @@ class QuestionController extends Controller implements HasMiddleware
 
         $fields = $request->validate([
             'quiz_id' => 'required|exists:quizzes,id',
-            'question_text' => 'required|max:50',
-            'right_answer' => 'required|max:5',
+            'question_text' => 'required|max:200',
+            'answer' => 'required|max:4',
             'explanation' => 'required|max:500'
         ]);
 
@@ -58,8 +58,8 @@ class QuestionController extends Controller implements HasMiddleware
     public function update(Request $request, Question $question)
     {
         $fields = $request->validate([
-           'question_text' => 'required|max:50',
-            'rigth_answer' => 'required|max:5',
+           'question_text' => 'required|max:200',
+            'answer' => 'required|max:4',
             'explanation' => 'required|max:500'
         ]);
 
@@ -76,16 +76,5 @@ class QuestionController extends Controller implements HasMiddleware
         $question->delete();
 
         return ['message' => "Question was deleted"];
-    }
-
-    public function getQuestionsByQuiz($quizId)
-    {
-        $quiz = Quiz::with('questions')->find($quizId);
-
-        if (!$quiz) {
-            return response()->json(['message' => 'Quiz not found'], 404);
-        }
-
-        return response()->json($quiz->questions);
     }
 }

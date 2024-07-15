@@ -54,7 +54,7 @@ export default function Update() {
     }, [])
 
     return (
-        <>
+        <div className="container">
             <h1 className="title">Update a new post</h1>
 
             <form onSubmit={(e) => handleUpdate(e)} className="w-1/2 mx-auto space-y-6">
@@ -85,6 +85,6 @@ export default function Update() {
                 <button type="submit" className="primary-btn">Update</button>
             </form>
 
-        </>
+        </div>
     )
 }

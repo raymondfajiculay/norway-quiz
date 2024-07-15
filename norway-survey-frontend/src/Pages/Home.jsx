@@ -22,7 +22,7 @@ export default function Home() {
     }, []);
 
     return(
-        <div className="flex flex-col">
+        <div className="container flex flex-col">
            
             { user ? (
                 <>
@@ -44,36 +44,34 @@ export default function Home() {
                                         <div>
                                             <h2 className="font-bold text-2xl">{quiz.title}</h2>
                                             <small className="text-xs text-slate-600">
-                                                Created by {quiz.user.name} on {new Date(quiz.created_at).toLocaleDateString()}
+                                                Created By: {quiz.user.name} on {new Date(quiz.created_at).toLocaleDateString()} |  Status: {quiz.status}
                                             </small>
                                         </div>
                                     </div>
-                                    <p>{quiz.description}</p>
+                                    <small>Description: {quiz.description}</small>
                                 </div>
                             </Link>
                         ) : null
                     ))
                 ) : (
-                    <p>There are no quizzes yet.</p>
+                    <p>You have not created any quiz yet</p>
                 )
             ) : (
-                quizzes.length > 0 ? (
-                    quizzes.map(quiz => (
-                        <div key={quiz.id} className="mt-4 p-4 border rounded-md border-dashed border-slate-400 flex flex-col">
-                            <div className="mb-2 flex items-start justify-between">
-                                <div>
-                                    <h2 className="font-bold text-2xl">{quiz.title}</h2>
-                                    <small className="text-xs text-slate-600">
-                                        Created by {quiz.user.name} on {new Date(quiz.created_at).toLocaleDateString()}
-                                    </small>
+                <div className="flex flex-wrap">
+                    {quizzes.length > 0 ? (
+                        quizzes.map(quiz => (
+                                <div key={quiz.id} className="w-full m-2 md:w-1/3 md:m-0 p-2">
+                           <Link  to={`/games/${quiz.id}`} key={quiz.id}>
+                                    <div className="mt-4 p-4 border rounded-md border-dashed border-slate-400 flex justify-center items-center md:h-40">
+                                        <h2 className="font-bold text-2xl">{quiz.title}</h2>
+                                    </div>
+                           </Link>
                                 </div>
-                            </div>
-                            <p>{quiz.description}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>There are no quizzes yet.</p>
-                )
+                        ))
+                    ) : (
+                        <p>There are no quiz yet.</p>
+                    )}
+                </div>
             )}
         </div>
     )

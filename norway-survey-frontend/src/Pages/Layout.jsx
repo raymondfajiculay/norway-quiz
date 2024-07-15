@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { Link, Outlet, useNavigate } from "react-router-dom"
 import { AppContext } from "../Context/AppContext"
 
-export default function Layout() {
+export default function Layout({hideHeader}) {
     const {user, token, setUser, setToken} = useContext(AppContext);
     const navigate = useNavigate();
 
@@ -30,15 +30,13 @@ export default function Layout() {
 
     return (
         <>
-            <header>
+            <header className={hideHeader ? 'hidden' : ''}>
                 <nav>
                     <Link to="/" className="nav-link">Home</Link>
 
                     {user ? (
                         <div className="flex items-center space-x-4">
                             <p className="text-slate-400 text-xs">Welcome back {user.name}</p>
-
-                            {/* <Link to="/create" className="nav-link">Create Post</Link> */}
 
                             <form onSubmit={handleLogout}>
                                 <button className="nav-link">Logout</button>

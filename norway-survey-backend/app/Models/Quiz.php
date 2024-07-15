@@ -12,7 +12,7 @@ class Quiz extends Model
     protected $fillable = [
         'title',
         'description',
-        'intervention'
+        'status'
     ];
 
     public function user() {
@@ -21,5 +21,9 @@ class Quiz extends Model
 
     public function questions() {
         return $this->hasMany(Question::class);
+    }
+
+    public function interventions() {
+        return $this->hasMany(Intervention::class);
     }
 }

@@ -7,8 +7,8 @@ export default function Create() {
     const {token} = useContext(AppContext);
     const [formData, setFormData] = useState({
         title: "",
-        intervention: "",
-        description: ""
+        description: "",
+        status: "Draft"
     });
 
     const [errors, setErrors] = useState({});
@@ -35,7 +35,7 @@ export default function Create() {
 
 
     return (
-        <>
+        <div className="container">
             <h1 className="title">Create a new quiz</h1>
 
             <form onSubmit={(e) => handleCreate(e)} className="w-1/2 mx-auto space-y-6">
@@ -50,19 +50,6 @@ export default function Create() {
                         className="input-class"
                     />
                     {errors.title && <p className="error">{errors.title[0]}</p>}
-                </div>
-
-                {/* Intervention */}
-                <div>
-                    <input 
-                        type="text" 
-                        name="intervention" 
-                        placeholder="Invervention" 
-                        value={formData.intervention} 
-                        onChange={(e) => setFormData({ ...formData, intervention: e.target.value })}
-                        className="input-class"
-                    />
-                    {errors.intervention && <p className="error">{errors.intervention[0]}</p>}
                 </div>
 
                 {/* Description */}
@@ -81,6 +68,6 @@ export default function Create() {
                 <button type="submit" className="primary-btn">Create</button>
             </form>
 
-        </>
+        </div>
     )
 }

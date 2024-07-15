@@ -39,7 +39,7 @@ export default function Show() {
     }, []);
 
     return (
-        <>
+        <div className="container">
             {post ?
                 <div key={post.post.id} className="mt-4 p-4 border rounded-md border-dashed border-slate-400">
                     <div className="mb-2 flex items-start justify-between">
@@ -61,6 +61,6 @@ export default function Show() {
                     }
                 </div>
             : <p className="title">Post Not Found</p>}
-        </>
+        </div>
     ) 
 }
