@@ -1,0 +1,107 @@
+.buttons {
+    color: white;
+    font-family: animatedfont;
+    padding: 1rem 1.8em;
+    border: 0;
+    border-radius: 20px;
+    transition: 0.2s;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    margin-bottom: 0.5rem;
+}
+
+.buttons:hover {
+    color: #cec5c5;
+}
+
+.play-now,
+.next {
+    background-color: #f1a01b;
+    border-top: 1px solid #ffdda3; /* Top border color */
+    border-bottom: 1px solid #a16706; /* Bottom border color */
+    box-shadow: 0px -4px 0px 0px #ffdda3, 0px 4px 0px 0px #a16706; /* Shadow on top and bottom */
+}
+
+.play-now:hover,
+.next:hover {
+    background-color: #a16706;
+    box-shadow: 0px -4px 0px 0px #724700, 0px 4px 0px 0px #f1a01b; /* Shadow on top and bottom */
+}
+
+.tama {
+    background-color: #30ba49;
+    border-top: 1px solid #76f08c; /* Top border color */
+    border-bottom: 1px solid #125f20; /* Bottom border color */
+    box-shadow: 0px -4px 0px 0px #76f08c, 0px 4px 0px 0px #125f20; /* Shadow on top and bottom */
+    transition: all 0.3s ease;
+}
+
+.tama:hover {
+    background-color: #1f7a30;
+    border-top: 1px solid #1fa037; /* Top border color */
+    border-bottom: 1px solid #1a5825; /* Bottom border color */
+    box-shadow: 0px -4px 0px 0px #1fa037, 0px 4px 0px 0px #1a5825; /* Shadow on top and bottom */
+}
+
+.mali {
+    background-color: #d83232;
+    border-top: 1px solid #e74747; /* Top border color */
+    border-bottom: 1px solid #862a2a; /* Bottom border color */
+    box-shadow: 0px -4px 0px 0px #e74747, 0px 4px 0px 0px #862a2a; /* Shadow on top and bottom */
+    transition: all 0.3s ease;
+}
+
+.mali:hover {
+    background-color: #8f2121;
+    border-top: 1px solid #d84040; /* Top border color */
+    border-bottom: 1px solid #641b1b; /* Bottom border color */
+    box-shadow: 0px -4px 0px 0px #bd2e2e, 0px 4px 0px 0px #641b1b; /* Shadow on top and bottom */
+}
+
+@media only screen and (max-width: 600px) {
+    /* .spermy-questions {
+        width: 32%;
+        position: absolute;
+        right: -20px;
+        bottom: -50px;
+    } */
+
+    /* .question-container {
+        width: 190px;
+        height: 80px;
+        font-size: 1rem;
+    } */
+}
+
+@media only screen and (max-width: 600px) {
+    .buttons {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .buttons {
+        font-size: 1.5rem;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .buttons {
+        font-size: 1.8rem;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .buttons {
+        font-size: 2rem;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
