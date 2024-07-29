@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('question_id');
             $table->integer('participant_id');
             $table->string('answer');
+            $table->string('test_type');
             $table->timestamps();
         });
     }

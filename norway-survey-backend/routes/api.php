@@ -30,3 +30,5 @@ Route::get('/quizzes/{quiz}/questions', [QuizController::class, 'showQuestions']
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/check-number', [ParticipantController::class, 'checkNumber']);

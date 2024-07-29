@@ -12,7 +12,8 @@ class Answer extends Model
     protected $fillable = [
         'question_id',
         'participant_id',
-        'answer'
+        'answer',
+        'test_type'
     ];
 
     public function participant() {

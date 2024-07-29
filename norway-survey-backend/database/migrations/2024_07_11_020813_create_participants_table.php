@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nickname');
             $table->integer('age');
-            $table->integer('number');
+            $table->string('number');
             $table->string('biological_sex');
             $table->string('identification');
             $table->timestamps();
-        });
+        });        
     }
 
     /**
