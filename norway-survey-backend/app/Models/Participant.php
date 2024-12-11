@@ -10,6 +10,7 @@ class Participant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'quiz_id',
         'nickname',
         'age',
         'number',
@@ -17,7 +18,13 @@ class Participant extends Model
         'identification',
     ];
 
-    public function answer() {
+    public function answers()
+    {
         return $this->hasMany(Answer::class);
+    }
+
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class);
     }
 }

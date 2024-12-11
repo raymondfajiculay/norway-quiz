@@ -11,7 +11,8 @@ class Intervention extends Model
 
     protected $fillable = [
         'quiz_id',
-        'link'
+        'link',
+        'start_time'
     ];
 
     public function quiz() {

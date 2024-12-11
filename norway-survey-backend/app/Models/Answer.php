@@ -16,7 +16,8 @@ class Answer extends Model
         'test_type'
     ];
 
-    public function participant() {
+    public function participant()
+    {
         return $this->belongsTo(Participant::class);
     }
 }

@@ -15,6 +15,7 @@ class ParticipantController extends Controller
     public function store(Request $request) {
 
         $fields = $request->validate([
+            'quiz_id' => 'required|exists:quizzes,id',
             'nickname' => 'required|max:50',
             'age' => 'required|numeric|between:0,100',
             'number' => 'required|regex:/^09\d{9}$/',
@@ -31,24 +32,16 @@ class ParticipantController extends Controller
     {
         $request->validate([
             'number' => 'required|numeric',
-            'quiz_id' => 'required|integer' // Ensure quiz_id is also provided
+            'quiz_id' => 'required|integer'
         ]);
-
-        // Check if the number exists in the participants table
-        $exists = Participant::where('number', $request->number)->exists();
-
-        // Check if the participant has existing answers for any questions in the given quiz ID
-        $hasExistingAnswers = DB::table('participants')
-            ->join('answers', 'participants.id', '=', 'answers.participant_id')
-            ->join('questions', 'answers.question_id', '=', 'questions.id')
-            ->where('participants.number', $request->number)
-            ->where('questions.quiz_id', $request->quiz_id)
+    
+        $exists = Participant::where('number', $request->number)
+            ->where('quiz_id', $request->quiz_id)
             ->exists();
-
+    
         return response()->json([
-            'exists' => $exists,
-            'hasExistingAnswers' => $hasExistingAnswers
-        ]);
+            'message' => $exists
+        ], 200);
     }
-
+    
 }

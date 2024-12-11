@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('quiz_id')->constrained()->cascadeOnDelete();
             $table->string('link');
+            $table->integer('start_time');
             $table->timestamps();
         });
     }

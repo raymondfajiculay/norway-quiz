@@ -17,14 +17,15 @@ class InterventionController extends Controller implements HasMiddleware
     }
 
     public function index() {
-        return 'Welcome';
+        return 'Interventions';
     }
 
     public function store(Request $request)
     {
         $fields = $request->validate([
             'quiz_id' => 'required|exists:quizzes,id',
-            'link' => 'required'
+            'link' => 'required',
+            'start_time' => 'required'
         ]);
 
         // Create quiz via a user
@@ -41,7 +42,8 @@ class InterventionController extends Controller implements HasMiddleware
     public function update(Request $request, Intervention $intervention)
     {
         $fields = $request->validate([
-            'link' => 'required'
+            'link' => 'required',
+            'start_time' => 'required'
         ]);
 
         // Create quiz via a user

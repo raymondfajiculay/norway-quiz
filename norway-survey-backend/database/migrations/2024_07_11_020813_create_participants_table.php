@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('quiz_id')->constrained('quizzes')->cascadeOnDelete();
             $table->string('nickname');
             $table->integer('age');
             $table->string('number');

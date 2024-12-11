@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Models\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -35,6 +34,7 @@ class QuestionController extends Controller implements HasMiddleware
             'quiz_id' => 'required|exists:quizzes,id',
             'question_text' => 'required|max:200',
             'answer' => 'required|max:4',
+            'test_type' => 'required',
             'explanation' => 'required|max:500'
         ]);
 
@@ -58,7 +58,7 @@ class QuestionController extends Controller implements HasMiddleware
     public function update(Request $request, Question $question)
     {
         $fields = $request->validate([
-           'question_text' => 'required|max:200',
+           'question_text' => 'required',
             'answer' => 'required|max:4',
             'explanation' => 'required|max:500'
         ]);
