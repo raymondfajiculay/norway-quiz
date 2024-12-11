@@ -1,0 +1,61 @@
+.spermy {
+    height: 300px;
+}
+
+.spermysummary {
+    height: 300px;
+}
+
+.backBtnMobile, .backBtnDesktop  {
+    position: absolute;
+}
+
+.summary {
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    width: 80%;
+    height: 80%;
+}
+
+
+
+@media screen and (max-width: 767px) { 
+    .backBtnMobile {
+        height: 50px;
+        top: 0;
+        left: 0;
+        margin: 20px;
+    }
+    .backBtnDesktop {
+        display: none;
+    }
+    .spermysummary {
+        height: 150px;
+        position: absolute;
+        right: 0;
+        bottom: -20%;
+    }
+    
+}
+
+@media screen and (min-width: 768px) {
+    .backBtnMobile {
+        display: none;
+    }
+    .backBtnDesktop {
+        height: 80px;
+        top: 35%;
+        left: -20%;
+    }
+    .summary {
+        width: 50%;
+    }
+    
+    .spermysummary {
+        height: 300px;
+    }
+}

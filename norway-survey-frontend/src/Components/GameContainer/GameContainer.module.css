@@ -1,0 +1,42 @@
+.gamecontainerone {
+    position: relative;
+    background-image: url('../../../src/assets/images/textcontainercondom.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.gamecontainertwo {
+    position: relative;
+    background-image: url('../../../src/assets/images/textcontainerconsent.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 768px) {
+    .gamecontainerone {
+        background-size: 100% 100%;
+        width: 350px;
+        min-height: 300px;
+    }
+
+    .gamecontainertwo {
+        background-size: 100% 100%;
+        width: 350px;
+        min-height: 300px;
+    }
+}
+
+
+@media screen and (min-width: 768px) { 
+    .gamecontainerone {
+        width: 600px;
+        background-size: 100% 100%;
+        min-height: 300px;
+    }
+    .gamecontainertwo {
+        width: 600px;
+        background-size: 100% 100%;
+        
+        min-height: 300px;
+    }
+}

@@ -1,58 +1,55 @@
-import { useContext } from "react"
-import { Link, Outlet, useNavigate } from "react-router-dom"
-import { AppContext } from "../Context/AppContext"
+import { useContext } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { AppContext } from "../Context/AppContext";
 
-export default function Layout({hideHeader}) {
-    const {user, token, setUser, setToken} = useContext(AppContext);
+export default function Layout() {
+    const { user, token, setUser, setToken } = useContext(AppContext);
     const navigate = useNavigate();
 
     async function handleLogout(e) {
-        e.preventDefault()
+        e.preventDefault();
 
-        const res = await fetch('/api/logout', {
-            method: 'post',
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+            method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
-
             },
         });
 
-        if(res.ok) {
+        if (res.ok) {
             setUser(null);
             setToken(null);
             localStorage.removeItem("token");
-            navigate('/');
+            navigate("/");
         } else {
             const data = await res.json();
-            console.error('Logout failed:', data.message);
+            console.error("Logout failed:", data.message);
         }
     }
 
     return (
         <>
-            <header className={hideHeader ? 'hidden' : ''}>
-                <nav>
-                    <Link to="/" className="nav-link">Home</Link>
-
-                    {user ? (
+            {user ? (
+                <header>
+                    <nav>
+                        <Link to="/" className="nav-link">
+                            Home
+                        </Link>
                         <div className="flex items-center space-x-4">
-                            <p className="text-slate-400 text-xs">Welcome back {user.name}</p>
+                            <p className="text-slate-400 text-xs">
+                                Welcome back {user.name}
+                            </p>
 
                             <form onSubmit={handleLogout}>
                                 <button className="nav-link">Logout</button>
                             </form>
                         </div>
-                    ) : (
-                        <div className="space-x-4">
-                            <Link to="/login" className="nav-link">Login</Link>
-                            <Link to="/register" className="nav-link">Register</Link>
-                        </div>
-                    )}
-                </nav>
-            </header>
+                    </nav>
+                </header>
+            ) : null}
             <main>
-                <Outlet/>
+                <Outlet />
             </main>
         </>
-    )
+    );
 }

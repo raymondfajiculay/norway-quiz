@@ -12,9 +12,27 @@
     margin-bottom: 0.5rem;
 }
 
-.buttons:hover {
-    color: #cec5c5;
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* .buttons:hover {
+    color: #cec5c5;
+} */
 
 .play-now,
 .next {
@@ -24,11 +42,6 @@
     box-shadow: 0px -4px 0px 0px #ffdda3, 0px 4px 0px 0px #a16706; /* Shadow on top and bottom */
 }
 
-.play-now:hover,
-.next:hover {
-    background-color: #a16706;
-    box-shadow: 0px -4px 0px 0px #724700, 0px 4px 0px 0px #f1a01b; /* Shadow on top and bottom */
-}
 
 .tama {
     background-color: #30ba49;
@@ -38,12 +51,6 @@
     transition: all 0.3s ease;
 }
 
-.tama:hover {
-    background-color: #1f7a30;
-    border-top: 1px solid #1fa037; /* Top border color */
-    border-bottom: 1px solid #1a5825; /* Bottom border color */
-    box-shadow: 0px -4px 0px 0px #1fa037, 0px 4px 0px 0px #1a5825; /* Shadow on top and bottom */
-}
 
 .mali {
     background-color: #d83232;
@@ -53,12 +60,6 @@
     transition: all 0.3s ease;
 }
 
-.mali:hover {
-    background-color: #8f2121;
-    border-top: 1px solid #d84040; /* Top border color */
-    border-bottom: 1px solid #641b1b; /* Bottom border color */
-    box-shadow: 0px -4px 0px 0px #bd2e2e, 0px 4px 0px 0px #641b1b; /* Shadow on top and bottom */
-}
 
 @media only screen and (max-width: 600px) {
     /* .spermy-questions {

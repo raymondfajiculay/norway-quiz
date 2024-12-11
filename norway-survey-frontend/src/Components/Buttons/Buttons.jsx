@@ -1,19 +1,36 @@
 import React from "react";
 import "./Buttons.css";
+import { motion } from "framer-motion";
 
-function Buttons({ children, className, onClick }) {
+function Buttons({ children, className, onClick, loading }) {
     return (
-        <button className={`buttons ${className}`} onClick={onClick}>
-            {children}
-        </button>
+        <motion.div
+            initial={{ scale: 0.1 }}
+            animate={{ scale: 0.8 }}
+            transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+            }}
+            whileHover={{ scale: 0.8 }}
+            whileTap={{ scale: 0.6 }}
+        >
+            <button
+                className={`buttons ${className}`}
+                onClick={onClick}
+                disabled={loading}
+            >
+                {loading ? (
+                    <div className="spinner"></div> /* Loading animation */
+                ) : (
+                    children
+                )}
+            </button>
+        </motion.div>
     );
 }
 
 export default Buttons;
-
-
-
-
 
 // import React, { useEffect } from "react";
 // import "./Buttons.css";

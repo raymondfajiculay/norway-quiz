@@ -1,0 +1,28 @@
+.spermy {
+    transition: .1s;
+}
+
+@media screen and (max-width: 767px) { 
+    .spermy {
+        height: 200px;
+        position: absolute;
+        right: -10%;
+        bottom: -50%;
+    }
+
+    .astigpre {
+        height: 150px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .spermy {
+        height: 400px;
+        position: relative;
+        margin-left: 50px;
+    }
+
+    .astigpre {
+        height: 150px;
+    }
+}
