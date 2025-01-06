@@ -28,6 +28,7 @@ Route::apiResource('questions', QuestionController::class);
 Route::apiResource('answers', AnswerController::class);
 
 Route::get('/dashboard/{slug}', [AnswerController::class, 'dashboard']);
+Route::get('/overalldashsboard', [AnswerController::class, 'overalldashboard']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

@@ -140,5 +140,117 @@ $postTest = collect($postTestQuestionPercentages)->firstWhere('question', $quest
             'questions' => $questionsWithPercentages, // Include the correct answer percentages for each question
         ]);
     }
+
+    public function overalldashboard()
+    {
+        // Retrieve all quizzes and eager load participants with their answers and questions
+        $quizzes = Quiz::with([
+            'participants.answers' => function ($query) {
+                $query->whereIn('test_type', ['Pre Test', 'Post Test']);
+            },
+            'questions'
+        ])->get();
+    
+        // Check if any quizzes exist
+        if ($quizzes->isEmpty()) {
+            return response()->json(['error' => 'No quizzes found'], 404);
+        }
+    
+        // Initialize variables for overall data
+        $overallPreTestScore = 0;
+        $overallPostTestScore = 0;
+        $overallQuestionsWithPercentages = [];
+    
+        foreach ($quizzes as $quiz) {
+            // Process participants
+            $participants = $quiz->participants->map(function ($participant) {
+                $groupedAnswers = $participant->answers->groupBy('test_type')
+                    ->map(function ($answers) {
+                        return $answers->keyBy('question_id')->pluck('answer', 'question_id');
+                    });
+    
+                $participant->grouped_answers = $groupedAnswers;
+                return $participant;
+            });
+    
+            // Calculate match percentage for each test type
+            $calculateMatchPercentage = function ($testType) use ($quiz, $participants) {
+                $totalQuestions = $quiz->questions->count();
+                $totalMatches = 0;
+                $totalParticipants = $participants->count();
+    
+                foreach ($participants as $participant) {
+                    foreach ($quiz->questions as $question) {
+                        $answer = $participant->grouped_answers[$testType][$question->id] ?? null;
+                        if ($answer === $question->answer) {
+                            $totalMatches++;
+                        }
+                    }
+                }
+    
+                return $totalParticipants > 0
+                    ? number_format(($totalMatches / ($totalQuestions * $totalParticipants)) * 100, 2)
+                    : 0;
+            };
+    
+            // Calculate correct percentage for each question
+            $calculateQuestionCorrectPercentage = function ($testType) use ($quiz, $participants) {
+                return $quiz->questions->map(function ($question) use ($testType, $participants) {
+                    $correctCount = 0;
+    
+                    foreach ($participants as $participant) {
+                        $answer = $participant->grouped_answers[$testType][$question->id] ?? null;
+                        if ($answer === $question->answer) {
+                            $correctCount++;
+                        }
+                    }
+    
+                    return [
+                        'question' => $question->question_text,
+                        'correctAnswer' => $participants->count() > 0
+                            ? number_format(($correctCount / $participants->count()) * 100, 2)
+                            : 0,
+                    ];
+                });
+            };
+    
+            // Calculate scores and question percentages for the current quiz
+            $preTestScore = $calculateMatchPercentage('Pre Test');
+            $postTestScore = $calculateMatchPercentage('Post Test');
+    
+            $preTestQuestionPercentages = $calculateQuestionCorrectPercentage('Pre Test');
+            $postTestQuestionPercentages = $calculateQuestionCorrectPercentage('Post Test');
+    
+            // Combine question percentages for pre-test and post-test
+            $questionsWithPercentages = $quiz->questions->map(function ($question) use ($preTestQuestionPercentages, $postTestQuestionPercentages) {
+                $preTest = $preTestQuestionPercentages->firstWhere('question', $question->question_text);
+                $postTest = $postTestQuestionPercentages->firstWhere('question', $question->question_text);
+    
+                return [
+                    'question' => $question->question_text,
+                    'preTestCorrect' => $preTest['correctAnswer'] ?? 0,
+                    'postTestCorrect' => $postTest['correctAnswer'] ?? 0,
+                ];
+            });
+    
+            // Accumulate data
+            $overallPreTestScore += $preTestScore;
+            $overallPostTestScore += $postTestScore;
+            $overallQuestionsWithPercentages = array_merge($overallQuestionsWithPercentages, $questionsWithPercentages->toArray());
+        }
+    
+        // Average the pre-test and post-test scores
+        $quizCount = $quizzes->count();
+        $overallPreTestScore = $quizCount > 0 ? number_format($overallPreTestScore / $quizCount, 2) : 0;
+        $overallPostTestScore = $quizCount > 0 ? number_format($overallPostTestScore / $quizCount, 2) : 0;
+    
+        // Return the processed data
+        return response()->json([
+            'overall_pre_test_score' => $overallPreTestScore,
+            'overall_post_test_score' => $overallPostTestScore,
+            'questions' => $overallQuestionsWithPercentages, // Include the correct answer percentages for each question
+        ]);
+    }
+    
     
 }

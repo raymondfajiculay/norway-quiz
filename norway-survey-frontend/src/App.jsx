@@ -16,6 +16,8 @@ import UpdateAttitude from "./Pages/Attitudes/Update";
 import UpdateFeedback from "./Pages/Feedback/Update";
 import Show from "./Pages/Quizzes/Show";
 import Dashboard from "./Pages/Dashboard";
+import OverAllDashboard from "./Pages/Dashboard/OverAllDashboard";
+import ForgotPassword from "./Pages/Auth/ForgotPassword";
 
 // Game
 import GameUser from "./Pages/Game/Index";
@@ -47,62 +49,76 @@ export default function App() {
                     {/* Quizzes */}
                     <Route
                         path="/create/quiz"
-                        element={user ? <CreateQuiz /> : <Register />}
+                        element={user ? <CreateQuiz /> : <Login />}
                     />
 
                     <Route path="/quiz/:slug" element={<Show />} />
 
                     <Route
                         path="/quiz/update/:slug"
-                        element={user ? <UpdateQuiz /> : <Register />}
+                        element={user ? <UpdateQuiz /> : <Login />}
                     />
 
                     {/* Questions */}
                     <Route
                         path="/create/question/:slug"
-                        element={user ? <CreateQuestion /> : <Register />}
+                        element={user ? <CreateQuestion /> : <Login />}
                     />
 
                     <Route
                         path="/update/question/:slug"
-                        element={user ? <UpdateQuestion /> : <Register />}
+                        element={user ? <UpdateQuestion /> : <Login />}
                     />
 
                     {/* Interventions */}
                     <Route
                         path="/create/intervention/:slug"
-                        element={user ? <CreateIntervention /> : <Register />}
+                        element={user ? <CreateIntervention /> : <Login />}
                     />
 
                     <Route
                         path="/update/intervention/:slug"
-                        element={user ? <UpdateIntervention /> : <Register />}
+                        element={user ? <UpdateIntervention /> : <Login />}
                     />
 
                     {/* Attitudes */}
                     <Route
                         path="/create/attitude/:slug"
-                        element={user ? <CreateAttitude /> : <Register />}
+                        element={user ? <CreateAttitude /> : <Login />}
                     />
                     <Route
                         path="/update/attitude/:slug"
-                        element={user ? <UpdateAttitude /> : <Register />}
+                        element={user ? <UpdateAttitude /> : <Login />}
                     />
 
                     {/* Feedbacks */}
                     <Route
                         path="/create/feedback/:slug"
-                        element={user ? <CreateFeedback /> : <Register />}
+                        element={user ? <CreateFeedback /> : <Login />}
                     />
                     <Route
                         path="/update/feedback/:slug"
-                        element={user ? <UpdateFeedback /> : <Register />}
+                        element={user ? <UpdateFeedback /> : <Login />}
                     />
 
                     <Route
                         path="/dashboard/:slug"
-                        element={user ? <Dashboard /> : <Register />}
+                        element={user ? <Dashboard /> : <Login />}
                     />
+
+                    <Route
+                        path="/forgotpassword"
+                        element={user ? <Home /> : <Login />}
+                    />
+
+                    <Route
+                        path="/overall-dashboard"
+                        element={
+                            user ? <OverAllDashboard /> : <ForgotPassword />
+                        }
+                    />
+
+                    <Route path="/home" element={user ? <Home /> : <Login />} />
                 </Route>
                 <Route path="/:slug" element={<Layout hideHeader />}>
                     <Route index element={<GameUser />} />

@@ -28,15 +28,23 @@ export default function Home() {
             <div className="container flex flex-col">
                 {user ? (
                     <>
-                        <h1 className="title text-slate-50">
-                            These are your quizzes
-                        </h1>
-                        <Link
-                            to="/create/quiz"
-                            className="bg-blue-500 text-white text-sm rounded-lg px-3 py-1 self-end"
-                        >
-                            Create New Quiz
-                        </Link>
+                        <div className="flex flex-col items-center">
+                            <h1 className="title text-slate-50">
+                                These are your quizzes
+                            </h1>
+                            <a
+                                href="/overall-dashboard"
+                                className="text-white bg-green-600 hover:bg-green-700 p-2 rounded-md"
+                            >
+                                Overall Result
+                            </a>
+                            <Link
+                                to="/create/quiz"
+                                className="bg-blue-500 text-white text-sm rounded-lg px-3 py-1 self-end"
+                            >
+                                Create New Quiz
+                            </Link>
+                        </div>
                     </>
                 ) : (
                     <div className={styles.container}>

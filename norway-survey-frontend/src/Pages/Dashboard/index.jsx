@@ -125,7 +125,17 @@ const Dashboard = () => {
                 <h1 className="text-2xl flex-1 ">
                     <span className="text-green-600 font-semibold">Pre</span> &
                     <span className="text-violet-600 font-semibold"> Post</span>{" "}
-                    Test Result |<span className="font-bold"> Norway Quiz</span>
+                    Test Result |{" "}
+                    <span className="font-bold">
+                        {" "}
+                        {slug
+                            .split("-")
+                            .map(
+                                (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ")}
+                    </span>
                 </h1>
 
                 {/* Pre Test */}
