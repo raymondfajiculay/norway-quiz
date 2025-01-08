@@ -120,6 +120,50 @@ const Dashboard = () => {
 
     return (
         <div className="bg-slate-700 p-5 min-h-dvh">
+            <div className="flex justify-end gap-2 items-center text-white mb-4">
+                {/* Gender Filter */}
+                <select
+                    className="p-1 rounded bg-white text-black text-sm w-28"
+                    // onChange={(e) => setGender(e.target.value)}
+                    // value={gender}
+                >
+                    <option value="">All Genders</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+
+                {/* Age Filter */}
+                <select
+                    className="p-1 rounded bg-white text-black text-sm w-28"
+                    // onChange={(e) => setAgeRange(e.target.value)}
+                    // value={ageRange}
+                >
+                    <option value="">All Ages</option>
+                    <option value="10-20">10-20</option>
+                    <option value="21-30">21-30</option>
+                    <option value="31-40">31-40</option>
+                </select>
+
+                {/* Start Date Filter */}
+                <input
+                    type="date"
+                    className="p-1 rounded bg-white text-black text-sm w-30"
+                    // onChange={(e) => setDate(e.target.value)}
+                    // value={date}
+                />
+
+                {/* End Date Filter */}
+                <input
+                    type="date"
+                    className="p-1 rounded bg-white text-black text-sm w-30"
+                    // onChange={(e) => setDate(e.target.value)}
+                    // value={date}
+                />
+                <button className="px-2 py-1 bg-blue-600 rounded">
+                    Filter
+                </button>
+            </div>
+
             <div className="flex flex-row justify-between items-center text-white gap-3">
                 {/* Dashboard in the center */}
                 <h1 className="text-2xl flex-1 ">

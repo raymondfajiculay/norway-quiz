@@ -31,9 +31,8 @@ class AnswerController extends Controller
 
         return response()->json(['message' => 'Answers saved successfully'], 201);
     }
-
-    public function dashboard($slug)
-    {
+    
+    public function dashboard($slug){
         // Retrieve the quiz by slug and eager load participants with their answers (filtered by test_type) and questions
         $quiz = Quiz::where('slug', $slug)
             ->with([
@@ -110,20 +109,20 @@ class AnswerController extends Controller
     
             return $questionCorrectPercentages;
         };
+        
+            // Calculate the pre-test and post-test scores
+            $preTestScore = $calculateMatchPercentage('Pre Test');
+            $postTestScore = $calculateMatchPercentage('Post Test');
+        
+            // Calculate the correct answer percentage for each question for both pre-test and post-test
+            $preTestQuestionPercentages = $calculateQuestionCorrectPercentage('Pre Test');
+            $postTestQuestionPercentages = $calculateQuestionCorrectPercentage('Post Test');
     
-        // Calculate the pre-test and post-test scores
-        $preTestScore = $calculateMatchPercentage('Pre Test');
-        $postTestScore = $calculateMatchPercentage('Post Test');
-    
-        // Calculate the correct answer percentage for each question for both pre-test and post-test
-        $preTestQuestionPercentages = $calculateQuestionCorrectPercentage('Pre Test');
-        $postTestQuestionPercentages = $calculateQuestionCorrectPercentage('Post Test');
-    
-        // Combine the pre-test and post-test question percentages
-        $questionsWithPercentages = $quiz->questions->map(function ($question) use ($preTestQuestionPercentages, $postTestQuestionPercentages) {
+            // Combine the pre-test and post-test question percentages
+            $questionsWithPercentages = $quiz->questions->map(function ($question) use ($preTestQuestionPercentages, $postTestQuestionPercentages) {
             // Find the correct percentage for the question for both tests
             $preTest = collect($preTestQuestionPercentages)->firstWhere('question', $question->question_text);
-$postTest = collect($postTestQuestionPercentages)->firstWhere('question', $question->question_text);
+            $postTest = collect($postTestQuestionPercentages)->firstWhere('question', $question->question_text);
 
     
             return [
