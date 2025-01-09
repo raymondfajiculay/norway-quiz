@@ -4,17 +4,28 @@ import Chart from "chart.js/auto";
 
 const Dashboard = () => {
     const { slug } = useParams();
-    const [preTestScore, setPreTestScore] = useState();
-    const [postTestScore, setPostTestScore] = useState();
+
+    // Requested Data
+    const [gender, setGender] = useState("");
+    const [startAge, setStartAge] = useState(0);
+    const [endAge, setEndAge] = useState(0);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    // Returned Data
+    const [preTestScore, setPreTestScore] = useState(null);
+    const [postTestScore, setPostTestScore] = useState(null);
     const [questions, setQuestions] = useState([]);
     const chartRef = useRef(null);
+    const chartInstanceRef = useRef(null);
 
     // Fetch data from the API
-    async function fetchMessage() {
+    const fetchMessage = async () => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/dashboard/${slug}`
+                 `${import.meta.env.VITE_API_URL}/dashboard/${slug}?sex=${gender}&startAge=${startAge}&endAge=${endAge}&startDate=${startDate}&endDate=${endDate}`
             );
+            
 
             if (!res.ok) {
                 throw new Error(`Error: ${res.statusText}`);
@@ -30,22 +41,29 @@ const Dashboard = () => {
                 error
             );
         }
-    }
+    };
 
-    useEffect(() => {
+      // Trigger Fetch Data from API on Page Load
+      useEffect(() => {
         fetchMessage();
     }, [slug]);
 
-    const chartData = questions.map((question) => ({
-        question: `${question.question}`, // Dynamically setting question text
-        preTest: question.preTestCorrect, // Use real data if available
-        postTest: question.postTestCorrect, // Use real data if available
-    }));
-
+    // Update chart when questions change
     useEffect(() => {
         if (questions.length > 0 && chartRef.current) {
+            // Destroy previous chart instance if it exists
+            if (chartInstanceRef.current) {
+                chartInstanceRef.current.destroy();
+            }
+
             const ctx = chartRef.current.getContext("2d");
-            new Chart(ctx, {
+            const chartData = questions.map((question) => ({
+                question: `${question.question}`, // Dynamically setting question text
+                preTest: question.preTestCorrect, // Use real data if available
+                postTest: question.postTestCorrect, // Use real data if available
+            }));
+
+            chartInstanceRef.current = new Chart(ctx, {
                 type: "bar",
                 data: {
                     labels: chartData.map((_, index) => `Q${index + 1}`),
@@ -70,14 +88,12 @@ const Dashboard = () => {
                     responsive: true,
                     plugins: {
                         tooltip: {
-                            // Custom tooltip to display the actual question text
                             callbacks: {
                                 label: function (tooltipItem) {
-                                    // Get the index of the bar being hovered over
                                     const questionIndex = tooltipItem.dataIndex;
                                     const questionText =
-                                        chartData[questionIndex].question; // Actual question text
-                                    return `${questionText}: ${tooltipItem.raw}%`; // Show question text and the percentage
+                                        chartData[questionIndex].question;
+                                    return `${questionText}: ${tooltipItem.raw}%`;
                                 },
                             },
                         },
@@ -95,7 +111,6 @@ const Dashboard = () => {
                                 display: true,
                                 text: "Questions",
                             },
-                            // Use rotated labels to prevent text overlap
                             ticks: {
                                 maxRotation: 45,
                                 minRotation: 45,
@@ -121,57 +136,62 @@ const Dashboard = () => {
     return (
         <div className="bg-slate-700 p-5 min-h-dvh">
             <div className="flex justify-end gap-2 items-center text-white mb-4">
-                {/* Gender Filter */}
                 <select
                     className="p-1 rounded bg-white text-black text-sm w-28"
-                    // onChange={(e) => setGender(e.target.value)}
-                    // value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    value={gender}
                 >
                     <option value="">All Genders</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                 </select>
 
-                {/* Age Filter */}
-                <select
-                    className="p-1 rounded bg-white text-black text-sm w-28"
-                    // onChange={(e) => setAgeRange(e.target.value)}
-                    // value={ageRange}
+                <input
+                    type="number"
+                    className="rounded bg-white text-black text-sm"
+                    onChange={(e) => setStartAge(e.target.value)}
+                    value={startAge}
+                    style={{ width: '100px', padding: '5px' }} 
+                    placeholder="Start Age"
+                />
+
+                <input
+                    type="number"
+                    className="rounded bg-white text-black text-sm"
+                    onChange={(e) => setEndAge(e.target.value)}
+                    value={endAge}
+                    style={{ width: '100px', padding: '5px' }} 
+                    placeholder="End Age"
+                />
+
+                <input
+                    type="date"
+                    className="p-1 rounded bg-white text-black text-sm w-30"
+                    onChange={(e) => setStartDate(e.target.value)}
+                    value={startDate}
+                />
+
+                <input
+                    type="date"
+                    className="p-1 rounded bg-white text-black text-sm w-30"
+                    onChange={(e) => setEndDate(e.target.value)}
+                    value={endDate}
+                />
+
+                <button
+                    className="px-2 py-1 bg-blue-600 rounded"
+                    onClick={fetchMessage}
                 >
-                    <option value="">All Ages</option>
-                    <option value="10-20">10-20</option>
-                    <option value="21-30">21-30</option>
-                    <option value="31-40">31-40</option>
-                </select>
-
-                {/* Start Date Filter */}
-                <input
-                    type="date"
-                    className="p-1 rounded bg-white text-black text-sm w-30"
-                    // onChange={(e) => setDate(e.target.value)}
-                    // value={date}
-                />
-
-                {/* End Date Filter */}
-                <input
-                    type="date"
-                    className="p-1 rounded bg-white text-black text-sm w-30"
-                    // onChange={(e) => setDate(e.target.value)}
-                    // value={date}
-                />
-                <button className="px-2 py-1 bg-blue-600 rounded">
                     Filter
                 </button>
             </div>
 
             <div className="flex flex-row justify-between items-center text-white gap-3">
-                {/* Dashboard in the center */}
-                <h1 className="text-2xl flex-1 ">
-                    <span className="text-green-600 font-semibold">Pre</span> &
-                    <span className="text-violet-600 font-semibold"> Post</span>{" "}
+                <h1 className="text-2xl flex-1">
+                    <span className="text-green-600 font-semibold">Pre</span> &{" "}
+                    <span className="text-violet-600 font-semibold">Post</span>{" "}
                     Test Result |{" "}
                     <span className="font-bold">
-                        {" "}
                         {slug
                             .split("-")
                             .map(
@@ -182,7 +202,6 @@ const Dashboard = () => {
                     </span>
                 </h1>
 
-                {/* Pre Test */}
                 <div className="flex flex-col items-center">
                     <p className="text-lg text-green-600 font-semibold">
                         Pre Test
@@ -193,7 +212,6 @@ const Dashboard = () => {
                     <p className="text-xs text-white">Overall Percentage</p>
                 </div>
 
-                {/* Post Test */}
                 <div className="flex flex-col items-center">
                     <p className="text-lg text-violet-600 font-semibold">
                         Post Test
